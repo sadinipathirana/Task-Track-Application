@@ -1,0 +1,35 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# ALTERNATIVE to Azure App Service (see render.yaml vs. .github/workflows/cd.yml).
+# Use this if you'd rather deploy the backend to Render instead of Azure.
+#
+# Deploys the backend as a Docker-based web service on Render.
+# MongoDB is NOT hosted on Render here — use a MongoDB Atlas free cluster
+# and set MONGO_URI below (Render doesn't offer a managed MongoDB).
+#
+# Usage:
+#   1. Push this repo to GitHub.
+#   2. In Render, click "New" -> "Blueprint" and point it at the repo.
+#   3. Render reads this file and provisions the service automatically.
+#   4. Fill in the "sync: false" env vars (secrets) in the Render dashboard.
+
+services:
+  - type: web
+    name: task-tracker-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false # set to your MongoDB Atlas connection string in the Render dashboard
+      - key: JWT_SECRET
+        generateValue: true # Render will generate a strong random secret
+      - key: JWT_EXPIRES_IN
+        value: 1d
+      - key: CLIENT_ORIGIN
+        sync: false # set to your deployed frontend URL, e.g. https://task-tracker.vercel.app
