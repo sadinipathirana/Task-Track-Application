@@ -18,7 +18,7 @@ export default function TaskFilters({ status, owner, onChange }) {
   }, [user]);
 
   return (
-    <div className="flex flex-wrap gap-4 rounded-2xl border border-emerald-100 bg-white/80 p-4 shadow-sm">
+    <div className="flex flex-wrap gap-4">
       <label className="flex flex-col gap-2 text-sm text-slate-600">
         <span>Status</span>
         <select

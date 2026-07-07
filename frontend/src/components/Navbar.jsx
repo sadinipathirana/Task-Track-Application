@@ -16,7 +16,7 @@ export default function Navbar() {
     <header className="border-b border-emerald-100 bg-white/90 shadow-sm backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <div
-          className="cursor-pointer font-serif text-xl font-semibold text-emerald-800"
+          className="cursor-pointer text-2xl font-bold text-emerald-900"
           onClick={() => navigate("/")}
         >
           Task Tracker
@@ -34,7 +34,7 @@ export default function Navbar() {
               <span className="capitalize text-slate-500">({user?.role})</span>
             </span>
             <button
-              className="rounded-full border border-slate-200 px-3 py-1.5 transition hover:border-emerald-300 hover:text-emerald-700"
+              className="rounded-full border border-slate-200 px-3 py-1.5 transition hover:border-emerald-300 hover:text-emerald-800"
               onClick={handleLogout}
             >
               Log out

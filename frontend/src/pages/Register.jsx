@@ -84,10 +84,6 @@ export default function Register() {
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>
-          <small className="text-xs text-slate-500">
-            Role selection is open for this assignment&apos;s evaluation
-            purposes; see README for notes.
-          </small>
         </label>
 
         <button
