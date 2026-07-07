@@ -1,7 +1,4 @@
 name: CD
-
-# Runs after CI succeeds on main, so we never publish an image or trigger a
-# deploy from code that failed lint/tests.
 on:
   workflow_run:
     workflows: ['CI']
@@ -44,8 +41,8 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}-backend:latest
-            ghcr.io/${{ github.repository }}-backend:${{ github.sha }}
+            ghcr.io/${{ steps.repo.outputs.repo }}-backend:latest
+            ghcr.io/${{ steps.repo.outputs.repo }}-backend:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -59,26 +56,18 @@ jobs:
             VITE_API_URL=${{ vars.VITE_API_URL }}
             VITE_SOCKET_URL=${{ vars.VITE_SOCKET_URL }}
           tags: |
-            ghcr.io/${{ github.repository }}-frontend:latest
-            ghcr.io/${{ github.repository }}-frontend:${{ github.sha }}
+            ghcr.io/${{ steps.repo.outputs.repo }}-frontend:latest
+            ghcr.io/${{ steps.repo.outputs.repo }}-frontend:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - id: meta
-        run: echo "backend_image=ghcr.io/${{ github.repository }}-backend:${{ github.sha }}" >> "$GITHUB_OUTPUT"
+        run: echo "backend_image=ghcr.io/${{ steps.repo.outputs.repo }}-backend:${{ github.sha }}" >> "$GITHUB_OUTPUT"
 
-  # The frontend is deployed by Vercel's own GitHub integration (connected
-  # separately in the Vercel dashboard with Root Directory set to `frontend`),
-  # so there is no frontend deploy job here — only the backend needs an
-  # explicit deploy step, since Azure doesn't watch the repo on its own.
   deploy-backend-to-azure:
     name: Deploy backend to Azure App Service
     needs: build-and-push
     runs-on: ubuntu-latest
-    # Off by default so this never fails CI/CD for anyone who hasn't set up
-    # Azure yet. Enable by setting the repo variable ENABLE_AZURE_DEPLOY=true
-    # and adding the AZURE_WEBAPP_NAME / AZURE_WEBAPP_PUBLISH_PROFILE secrets
-    # (Settings -> Secrets and variables -> Actions).
     if: ${{ vars.ENABLE_AZURE_DEPLOY == 'true' }}
     steps:
       - name: Deploy container to Azure Web App
