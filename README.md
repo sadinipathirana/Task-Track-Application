@@ -3,15 +3,7 @@
 A full-stack task tracking application with authentication, role-based
 access control, real-time updates.
 
-Tech Stack:
-
-React + Vite . 
-Node.js + Express . 
-MongoDB . 
-JWT .
-Socket.IO .
-Jest + Supertest .
-GitHub Actions
+Tech Stack: React + Vite . Node.js + Express . MongoDB . JWT .Socket.IO .Jest + Supertest .GitHub Actions
 
 ```
 task-tracker/
