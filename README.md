@@ -5,12 +5,12 @@ access control, real-time updates.
 
 Tech Stack:
 
-React + Vite
-Node.js + Express
-MongoDB
-JWT 
-Socket.IO
-Jest + Supertest
+React + Vite . 
+Node.js + Express . 
+MongoDB . 
+JWT .
+Socket.IO .
+Jest + Supertest .
 GitHub Actions
 
 ```
